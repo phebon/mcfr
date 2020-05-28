@@ -116,6 +116,8 @@ def poisv(value_list, x):
     p = (mue**x)/((m.e**mue)*m.factorial(x))
     return p
 
+
+#Achtung! Diese Funktion ist laut T.Kiesling nicht sinnvoll.
 ''' Die folgende Funktion gibt den nach Gauss bestimmten Fehler der Poisson-Wahrscheinlichkeit 
     das Ereignis x-mal zu beobachten.'''
 def poisv_err(value_list, x):
@@ -131,7 +133,17 @@ def pois_vnr(value_list):
         res_list.append((p,sp))
     return res_list
 
+""" Im Folgenden: 
+    Die Chi-Quadrat-Abhängigkeit!"""
 
+'''Die Wahrscheinlichkeitsverteilung der zentralen chi-quadrat-abhängigkeit'''
+def chiq_vert(x,n):
+    import math as m
+    return 1/(m.gamma(n/2)*2**(n/2))*x**((n/2) -1)*m.exp(-x/2)
+
+def chiq_wahr(x,n):
+    import scipy.integrate as integrate
+    return integrate.quad(chiq_vert(u, n), 0, x)
 
 
 """ Im Folgenden einige Input-/Outputfunktionen:"""
