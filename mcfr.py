@@ -137,13 +137,13 @@ def pois_vnr(value_list):
     Die Chi-Quadrat-Abhängigkeit!"""
 
 '''Die Wahrscheinlichkeitsverteilung der zentralen chi-quadrat-abhängigkeit'''
-def chiq_vert(x,n):
+def chiq_vert(n):
     import math as m
-    return 1/(m.gamma(n/2)*2**(n/2))*x**((n/2) -1)*m.exp(-x/2)
+    return lambda x: 1/(m.gamma(n/2)*2**(n/2))*x**((n/2) -1)*m.exp(-x/2)
 
-def chiq_wahr(x,n):
+def chiq_wahr(y,n):
     import scipy.integrate as integrate
-    return integrate.quad(chiq_vert(u, n), 0, x)
+    return integrate.quad(chiq_vert(n), 0, y)
 
 
 """ Im Folgenden einige Input-/Outputfunktionen:"""
@@ -313,5 +313,5 @@ def fig_show(figure, filename= 'plot', scale=1, keep=False):
 
 
 if __name__ == '__main__':
-    tlist = [1.1, 1.2, 1.42, 1.33, 1.41345]
-    print(r_mean_err(tlist))
+    inte = chiq_wahr(6.25,3)
+    print(f'P(5,3)={inte}')
