@@ -141,9 +141,17 @@ def chiq_vert(n):
     import math as m
     return lambda x: 1/(m.gamma(n/2)*2**(n/2))*x**((n/2) -1)*m.exp(-x/2)
 
-def chiq_wahr(y,n):
+''' Die Wahrscheinlichkeit für Chiq < y bei n-Freiheitsgraden:'''
+def chiq_wahr(y,n: int):
     import scipy.integrate as integrate
     return integrate.quad(chiq_vert(n), 0, y)
+
+''' Hier das Chi-Quadrat zweier Listen: experimentell bestimmte (mess_haeufigkeiten) und theoretisch erwartete (erw_haeufigkeiten).'''
+def chiq_of_lists(mess_hauefigkeiten, erw_haeufigkeiten):
+    chiq=0
+    for ind, erwartung in enumerate(erw_haeufigkeiten):
+        chiq += (mess_hauefigkeiten[ind] - erwartung)**2/erwartung
+    return chiq
 
 
 """ Im Folgenden einige Input-/Outputfunktionen:"""
