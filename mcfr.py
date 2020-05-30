@@ -141,9 +141,11 @@ def chiq_vert(n):
     import math as m
     return lambda x: 1/(m.gamma(n/2)*2**(n/2))*x**((n/2) -1)*m.exp(-x/2)
 
-''' Die Wahrscheinlichkeit für Chiq < y bei n-Freiheitsgraden:'''
-def chiq_wahr(y,n: int):
+''' Die Wahrscheinlichkeit für Chiq < y bei n-Freiheitsgraden. Wenn greater= True gesetzt wird (standard ist False), so wird die Wahrscheinlcihkeit für x>y ausgegeben. '''
+def chiq_wahr(y,n: int,greater=False):
     import scipy.integrate as integrate
+    if greater:
+        return 1-integrate.quad(chiq_vert(n), 0, y)
     return integrate.quad(chiq_vert(n), 0, y)
 
 ''' Hier das Chi-Quadrat zweier Listen: experimentell bestimmte (mess_haeufigkeiten) und theoretisch erwartete (erw_haeufigkeiten).'''
