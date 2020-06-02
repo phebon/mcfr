@@ -145,7 +145,7 @@ def chiq_vert(n):
 def chiq_wahr(y,n: int,greater=False):
     import scipy.integrate as integrate
     if greater:
-        return 1-integrate.quad(chiq_vert(n), 0, y)
+        return (1-integrate.quad(chiq_vert(n), 0, y)[0],integrate.quad(chiq_vert(n), 0, y)[1])
     return integrate.quad(chiq_vert(n), 0, y)
 
 ''' Hier das Chi-Quadrat zweier Listen: experimentell bestimmte (mess_haeufigkeiten) und theoretisch erwartete (erw_haeufigkeiten).'''
