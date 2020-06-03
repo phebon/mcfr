@@ -155,6 +155,15 @@ def chiq_of_lists(mess_hauefigkeiten, erw_haeufigkeiten):
         chiq += (mess_hauefigkeiten[ind] - erwartung)**2/erwartung
     return chiq
 
+''' Hier soll der Abschnitt zur linearen Regression beginnen.'''
+''' Hier wird die Kovarianz zweier Größen berechnet.'''
+def covarianz(xy_list):
+    import math as m
+    x_mean = mean([el[0] for el in xy_list])
+    y_mean = mean([el[1] for el in xy_list])
+    numerator = sum([(el[0] - x_mean)(el[1] - y_mean) for el in xy_list])
+    denominator = m.sqrt(sum([el[0] - x_mean for el in xy_list])*sum([el[1] - y_mean for el in xy_list]))
+    return numerator/denominator
 
 """ Im Folgenden einige Input-/Outputfunktionen:"""
 
@@ -289,7 +298,6 @@ def read_csv(filename,Headers=False):
     Mit scale kann die Größe des quadratischen Fensters manipuliert werden. 
     Bei scale=1 sind Höhe und Breite 1000 (Pixel).'''
 def fig_show(figure, filename= 'plot', scale=1, keep=False):
-    import matplotlib.pyplot as plt
     import pygame
     import PIL
     import os
