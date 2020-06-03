@@ -161,9 +161,34 @@ def covarianz(xy_list):
     import math as m
     x_mean = mean([el[0] for el in xy_list])
     y_mean = mean([el[1] for el in xy_list])
-    numerator = sum([(el[0] - x_mean)(el[1] - y_mean) for el in xy_list])
-    denominator = m.sqrt(sum([el[0] - x_mean for el in xy_list])*sum([el[1] - y_mean for el in xy_list]))
-    return numerator/denominator
+    cov = sum([(el[0] - x_mean)*(el[1] - y_mean) for el in xy_list])/len(xy_list)
+    #denominator = m.sqrt(sum([el[0] - x_mean for el in xy_list])*sum([el[1] - y_mean for el in xy_list]))
+    return cov
+
+''' Nun die Lineare Regression bei Annahme fehlerfreier Daten'''
+def lin_Reg(xy_list, fehler=False):
+    import math as m
+    if not fehler:
+        n = len(xy_list)
+        x_list = [el[0] for el in xy_list]
+        y_list = [el[1] for el in xy_list]
+        x_sum = sum(x_list)
+        y_sum = sum(y_list)
+        x_square_sum = sum([el**2 for el in x_list])
+        x_sum_square = x_sum**2
+        xy_sum = sum([el[0] * el[1] for el in xy_list])
+        triangle = n * x_square_sum - x_sum_square
+        a = (x_square_sum*y_sum - x_sum*xy_sum)/triangle
+        b = (n*xy_sum - x_sum*y_sum)/triangle
+        s_square = sum([(el[1] - a - b*el[0])**2 for el in xy_list])/(n-2)
+        sa = m.sqrt(abs((s_square*x_square_sum)/triangle))
+        sb = m.sqrt(n*s_square/triangle)
+        r = n*covarianz(xy_list)/m.sqrt(sum([(el - mean(x_list))**2 for el in x_list])*sum([(el - mean(y_list))**2 for el in y_list]))
+    return (a,sa),(b,sb),r
+
+
+
+
 
 """ Im Folgenden einige Input-/Outputfunktionen:"""
 
@@ -331,5 +356,29 @@ def fig_show(figure, filename= 'plot', scale=1, keep=False):
 
 
 if __name__ == '__main__':
-    inte = chiq_wahr(6.25,3)
-    print(f'P(5,3)={inte}')
+    import random
+    import matplotlib.pyplot as plt
+    xsample = [0]+[random.uniform(0,5) for el in range(20)]+[5]
+    ysample = list(map(lambda x: 3.212*x+ 2 + random.uniform(-8.5,8.5), xsample))
+    ywerte = [el*3.212 + 2 for el in xsample]
+    xy_sample = [(xsample[i],ysample[i]) for i in range(len(xsample))]
+    cov_xy_1 = covarianz(xy_sample)
+    awerte,bewerte,r = lin_Reg(xy_sample)
+    a = rou_val_n_err(awerte[0],awerte[1])
+    b = rou_val_n_err(bewerte[0], bewerte[1])
+    y_reg_werte = [el*b[0] + a[0] for el in xsample]
+    y_max_reg_werte = [el*(b[0]+b[1])+a[0]-a[1] for el in xsample]
+    y_min_reg_werte = [el * (b[0] - b[1]) + a[0] + a[1] for el in xsample]
+    print(f'Die Regression für die Samplewerte ergab: f(x) = {a[0]} + {b[0]} x\n'
+          f'Mit einem r von {r} \n'
+          f'Dabei nimmt a den Wert {a[0]} +- {a[1]} an.\n'
+          f'b = {b[0]} +- {b[1]}\n'
+          f'Mit einem r von {r}\n'
+          f'Die Kovarianz der Werte beträgt {cov_xy_1}')
+    fig, ax = plt.subplots()
+    ax.scatter(xsample, ysample)
+    ax.plot(xsample, ywerte)
+    ax.plot(xsample, y_reg_werte)
+    ax.plot(xsample, y_max_reg_werte)
+    ax.plot(xsample, y_min_reg_werte)
+    fig_show(fig)
