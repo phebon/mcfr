@@ -376,9 +376,9 @@ if __name__ == '__main__':
           f'Mit einem r von {r}\n'
           f'Die Kovarianz der Werte beträgt {cov_xy_1}')
     fig, ax = plt.subplots()
-    ax.scatter(xsample, ysample)
-    ax.plot(xsample, ywerte)
+    ax.scatter(xsample, ysample, marker='x')
+    ax.plot(xsample, ywerte,'--')
     ax.plot(xsample, y_reg_werte)
-    ax.plot(xsample, y_max_reg_werte)
-    ax.plot(xsample, y_min_reg_werte)
+    ax.plot(xsample, y_max_reg_werte,'-.')
+    ax.plot(xsample, y_min_reg_werte,'-.')
     fig_show(fig)
