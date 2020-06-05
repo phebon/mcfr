@@ -1,3 +1,5 @@
+''' Dieses Programm ist nur dafür da, um die Benutzung des packages mcfr zu veranschulichen und hiermit untersagt,
+    den Code zu kopieren, um das Übungsblatt zu bearbeiten, um Unterschleif zu vermeiden.'''
 import mcfr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
