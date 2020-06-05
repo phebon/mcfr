@@ -164,7 +164,6 @@ def covarianz(xy_list):
     x_mean = mean([el[0] for el in xy_list])
     y_mean = mean([el[1] for el in xy_list])
     cov = sum([(el[0] - x_mean)*(el[1] - y_mean) for el in xy_list])/len(xy_list)
-    #denominator = m.sqrt(sum([el[0] - x_mean for el in xy_list])*sum([el[1] - y_mean for el in xy_list]))
     return cov
 
 ''' Nun die Lineare Regression bei Annahme fehlerfreier Daten
