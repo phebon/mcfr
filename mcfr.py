@@ -31,15 +31,17 @@ SOFTWARE.
 ''' Rundet einen Wert auf n stellen rechts des Kommas. 
     Nichtpositive Werte bedeuten Stellen rechts des Kommas.'''
 def round_to_n(value, n):
-    return (value / abs(value)) * int(value * 10 ** n + 0.5) / 10 ** n
+    return int(value * 10 ** n + 0.5) / 10 ** n
 
 
 '''Das n (also die negative Größenordnung auf die gerundet werden muss) wird anhand des Fehlers bestimmt.'''
 def n_from_error(error):
     import math
     from numpy import sign
-    return int((-sign(math.log(abs(error), 10)) * int(abs(math.log(abs(error), 10)))) + 2)
-
+    if error >=1:
+        return int((-sign(math.log(abs(error), 10)) * int(abs(math.log(abs(error), 10)))) + 2)
+    else:
+        return int((-sign(math.log(abs(error), 10)) * int(abs(math.log(abs(error), 10)))) + 1)
 
 
 '''Diese Funktion ermittelt die gerundeten Werte und die Größenordnung des Messwertes in einer Liste.'''
@@ -165,7 +167,8 @@ def covarianz(xy_list):
     #denominator = m.sqrt(sum([el[0] - x_mean for el in xy_list])*sum([el[1] - y_mean for el in xy_list]))
     return cov
 
-''' Nun die Lineare Regression bei Annahme fehlerfreier Daten'''
+''' Nun die Lineare Regression bei Annahme fehlerfreier Daten
+    Der Output ist: (y-Achsenabschnitt, fehler), (Steigung, fehler), korrelationskoeffizient '''
 def lin_Reg(xy_list, fehler=False):
     import math as m
     if not fehler:
@@ -258,10 +261,8 @@ def csv_create(listoflists, filename):
         lines = []
         for i, el in enumerate(valerrl):
             if el[2] >= 3 or el[2] <= -3 or el[2] == 2 or int(log(abs(el[0]))) == 2:
-
                 # Die Summe aus dimen und ne sollte die nötige Anzahl an Nachkommastellen ergeben, wenn wir in Sci.Not sind.
                 formatstr = '{0:.' + str(el[3]+el[2])+'f}'
-
                 # Das r'' markiert einen raw-format string, sodass \ nicht zum escapen führt.
                 # \:\pm\: führt escapet in LaTex zu space plusminus space (' +- ').
                 lines.append(r'(\:'+formatstr.format(el[0]/10**el[2]) + r'\:\pm\:' + formatstr.format(el[1]/10**el[2]) +r'\:)x10^' + str(el[2]))
