@@ -38,7 +38,7 @@ def round_to_n(value, n):
 def n_from_error(error):
     import math
     from numpy import sign
-    if error >=1:
+    if error < 1:
         return int((-sign(math.log(abs(error), 10)) * int(abs(math.log(abs(error), 10)))) + 2)
     else:
         return int((-sign(math.log(abs(error), 10)) * int(abs(math.log(abs(error), 10)))) + 1)
