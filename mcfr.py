@@ -166,6 +166,15 @@ def covarianz(xy_list):
     cov = sum([(el[0] - x_mean)*(el[1] - y_mean) for el in xy_list])/len(xy_list)
     return cov
 
+''' Korrelationskoeffizient'''
+def correlarion_coeff(xy_list):
+    n = len(xy_list)
+    x_list = [el[0] for el in xy_list]
+    y_list = [el[1] for el in xy_list]
+    r = n * covarianz(xy_list) / m.sqrt(sum([(el - mean(x_list)) ** 2 for el in x_list]) * sum([(el - mean(y_list)) ** 2 for el in y_list]))
+    return r
+
+
 ''' Nun die Lineare Regression bei Annahme fehlerfreier Daten
     Der Output ist: (y-Achsenabschnitt, fehler), (Steigung, fehler), korrelationskoeffizient '''
 def lin_Reg(xy_list, fehler=False):
@@ -185,7 +194,7 @@ def lin_Reg(xy_list, fehler=False):
         s_square = sum([(el[1] - a - b*el[0])**2 for el in xy_list])/(n-2)
         sa = m.sqrt(abs((s_square*x_square_sum)/triangle))
         sb = m.sqrt(n*s_square/triangle)
-        r = n*covarianz(xy_list)/m.sqrt(sum([(el - mean(x_list))**2 for el in x_list])*sum([(el - mean(y_list))**2 for el in y_list]))
+        r = correlarion_coeff(xy_list)
     return (a,sa),(b,sb),r
 
 
