@@ -110,13 +110,17 @@ def r_pois_mean_err(value_list):
     return rou_val_n_err(mu, stdf)[:2]
 
 
+''' Errechnet die Wahrscheinlichkeit eines Wertes x bei Mittelwert mu bei angenommener Poissonverteilung'''
+def poisp(mue, x):
+    p = (mue**x)/((m.e**mue)*m.factorial(x))
+    return p
+
 
 ''' Errechnet die Wahrscheinlichkeit eines Wertes x basierend auf einer angenommenen
     Poissonverteilung einer Input-Liste'''
 def poisv(value_list, x):
     mue = mean(value_list)
-    p = (mue**x)/((m.e**mue)*m.factorial(x))
-    return p
+    return poisp(mue, x)
 
 
 #Achtung! Diese Funktion ist laut T.Kiesling nicht sinnvoll.
