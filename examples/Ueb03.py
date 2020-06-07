@@ -1,9 +1,8 @@
-''' Dieses Programm ist nur dafür da, um die Benutzung des packages mcfr zu veranschulichen und hiermit untersagt,
-    den Code zu kopieren, um das Übungsblatt zu bearbeiten, um Unterschleif zu vermeiden.'''
 import mcfr
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
                                AutoMinorLocator)
+import math as m
 import datetime as d
 
 ''' Dieses Skript kann benutzt werden, um das Übungsblatt 03 der Fehlerrechnung 2 zu bearbeiten. Hier geht 
@@ -11,13 +10,31 @@ import datetime as d
     sowie der Korrelationskoeffizient berechnet. Desweiteren werden die Ergebnisse auch mittels pyplot veranschaulicht.'''
 xy_list = [(1450,1180), (2000, 1640), (2500, 2190), (1800, 1760), (1000, 900), (1500, 1200), (2000,1600), (1500, 1400),
            (1200, 1060), (1800, 1540), (1700, 1460), (1300, 1140), (1850, 1650), (2500, 2400)]
+n = len(xy_list)
 x_list, y_list = [el[0] for el in xy_list], [el[1] for el in xy_list]
 ''' Die Regressionskoeffizienten werden aus dem Input berechnet und mittels der Rundungsfunktion entsprechend des Fehlers gerundet. '''
 awerte, bwerte, r = mcfr.lin_Reg(xy_list)
 a,sa = mcfr.rou_val_n_err(awerte[0], awerte[1])[0], mcfr.rou_val_n_err(awerte[0], awerte[1])[1]
 b,sb = mcfr.rou_val_n_err(bwerte[0], bwerte[1])[0], mcfr.rou_val_n_err(bwerte[0], bwerte[1])[1]
 ''' Die Stellenzahl für den Korrelationskoeffizienten ist recht willkürlich gewählt.'''
-r = mcfr.round_to_n(r,4)
+r = mcfr.round_to_n(r,3)
+round_input=int(input('Gib die Stelle an, zu der cov_xy und sE*sA gerundet werden sollen: '))
+cov_xy_1 = mcfr.round_to_n(mcfr.covarianz(xy_list),-3)
+expE = mcfr.round_to_n(mcfr.mean(x_list), round_input)
+expA = mcfr.round_to_n(mcfr.mean(y_list), round_input)
+sigE = mcfr.round_to_n(m.sqrt(sum([(el - expE) ** 2 for el in x_list])/n),1)
+sigA = mcfr.round_to_n(m.sqrt(sum([(el - expA) ** 2 for el in y_list])/n),1)
+sigEsigA =  sigE * sigA
+sigEsigA = mcfr.round_to_n(sigEsigA, -2)
+r1 = mcfr.round_to_n(cov_xy_1/sigEsigA, 3)
+if r - r1 == 0:
+    print('r1 und r sind gleich!')
+    print(f'sigE = {sigE}, sigA = {sigA}')
+    print(f'E = {expE}, A = {expA}')
+    print(f'cov_xy_1 = {cov_xy_1}')
+else:
+    print(f'Die Differenz zwischen r1 und r beträgt_ {r1 - r}. r1 = {r1}')
+    print(f'sigE = {sigE} , sigA = {sigA}')
 cov_xy = mcfr.covarianz(xy_list)
 ''' Hier werden die wichtigsten Daten ausgegeben, die angegeben werden müssen. '''
 print(f'Die Gerade mit der Geradengleichung: f(x) = {a}+-{sa} + ({b}+-{sb}) x\n'+
@@ -34,9 +51,9 @@ y_min = [a + sa + (b - sb)*el for el in x_basis]
 
 fig, ax = plt.subplots(figsize=(25,20))
 ax.scatter(x_list, y_list, marker='x',s=80, label='Angaben zu Ausgaben und Einnahmen')
-ax.plot(x_basis, y_erw_werte,'r',linewidth=3,label=f'Beste Regressionsgerade mit r = {r}')
+ax.plot(x_basis, y_erw_werte,'r',linewidth=3,label=f'Beste Regressionsgerade')
 ax.plot(x_basis, y_min,'--b',linewidth=2,label='Regressionsgerade minimaler Steigung')
-ax.plot(x_basis, y_max,'-.b',linewidth=2, label='Regressionsgerade maximaler Steigung')
+ax.plot(x_basis, y_max,'-.b',linewidth=2, label=f'Regressionsgerade maximaler Steigung mit r = {r}')
 ax.margins(0,.01)
 
 ax.yaxis.set_major_locator(MultipleLocator(100))
