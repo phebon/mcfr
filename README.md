@@ -38,4 +38,3 @@ wenn fig.show() für matplotlib aus unerfindlichen Gründen nicht funktioniert.
 
 ## Examples
 Hier sollen einige echte Verwendungszwecke des packages aus FR2 aufgezeigt werden. 
- 
