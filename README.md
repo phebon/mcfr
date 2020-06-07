@@ -1,7 +1,9 @@
 # mcfr
+
 ## Verwendung
 Dies ist ein python-package, welches einige der wichtigsten Berechnungen und Algorithmen enthält, die für die Veranstaltung 
 "Fortgeschrittene Fehlerrechnung und computergestütztes Arbeiten" benötigt werden. Dabei gliedert sich das Modul in verschiedene Bereiche:
+
 ### Rundung
 Um Werte auf die n-te Nachkommastelle zu runden oder ein (Wert, Fehler)-Paar auf die korrekte Anzahl von signifikanten 
 Stellen (2 signifikante des Fehlers) oder ganze Listen von (Werte, Fehler)-Paaren zu runden stehen die Funktionen
@@ -10,6 +12,7 @@ Stellen (2 signifikante des Fehlers) oder ganze Listen von (Werte, Fehler)-Paare
 3. vall_errl
 
 zur Verfügung.
+
 ### Stats zu Wertelisten
 Hier können Mittelwerte, Standardabweichungen oder Standardfehler berechnet werden. 
 
