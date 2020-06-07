@@ -1,7 +1,7 @@
 # mcfr
 
 ## Verwendung
-Dies ist ein python-package, welches einige der wichtigsten Berechnungen und Algorithmen enthält, die für die Veranstaltung 
+Dies ist ein python-modul, welches einige der wichtigsten Berechnungen und Algorithmen enthält, die für die Veranstaltung 
 "Fortgeschrittene Fehlerrechnung und computergestütztes Arbeiten" benötigt werden. Dabei gliedert sich das Modul in verschiedene Bereiche:
 
 ### Rundung
