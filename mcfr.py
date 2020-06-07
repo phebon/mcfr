@@ -367,7 +367,6 @@ def fig_show(figure, filename= 'plot', scale=1, keep=False):
     if not keep:
         os.remove(full_filename)
 
-
 if __name__ == '__main__':
     import random
     import matplotlib.pyplot as plt

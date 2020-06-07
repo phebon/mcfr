@@ -36,6 +36,6 @@ Momentan nur mit Listen gleichen Fehlers in der abhängigen Variable
 Hier sollen innovative Visualisierungen entstehen. Die können v.a. benutzt werden, 
 wenn fig.show() für matplotlib aus unerdenklichen Gründen nicht funktioniert.
 
-### Examples
+## Examples
 Hier sollen einige echte Verwendungszwecke des packages aus FR2 aufgezeigt werden. 
  
