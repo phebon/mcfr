@@ -1,1 +1,10 @@
-
+math
+statistics
+scipy
+numpy
+csv
+pygame
+Pillow
+random
+matplotlib
+pandas
